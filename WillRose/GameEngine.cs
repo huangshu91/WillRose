@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Nez;
+using Nez.Sprites;
 
 namespace WillRose
 {
@@ -32,6 +33,10 @@ namespace WillRose
             base.Initialize();
 
             testlevel = Scene.createWithDefaultRenderer(Color.CornflowerBlue);
+
+            var texture = testlevel.content.Load<Texture2D>("test");
+            var entity = testlevel.createEntity("entityId");
+            entity.addComponent(new Sprite(texture));
 
             testlevel_physics = Scene.createWithDefaultRenderer(Color.Beige);
 
