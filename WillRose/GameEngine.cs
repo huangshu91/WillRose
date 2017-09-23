@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Nez;
 using Nez.Sprites;
+using WillRose.Levels;
 
 namespace WillRose
 {
@@ -11,13 +12,18 @@ namespace WillRose
     /// </summary>
     public class GameEngine : Core
     {
+        Scene.SceneResolutionPolicy policy;
 
         Scene testlevel;
-
         Scene testlevel_physics;
 
         public GameEngine() : base()
         {
+            // michelle: play around with this
+            policy = Scene.SceneResolutionPolicy.None; 
+            Scene.setDefaultDesignResolution(400, 400, policy);
+
+            Window.AllowUserResizing = true;
         }
 
         /// <summary>
@@ -28,15 +34,9 @@ namespace WillRose
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
 
-            testlevel = Scene.createWithDefaultRenderer(Color.CornflowerBlue);
-
-            var texture = testlevel.content.Load<Texture2D>("test");
-            var entity = testlevel.createEntity("entityId");
-            entity.addComponent(new Sprite(texture));
+            testlevel = new TestLevel();
 
             testlevel_physics = Scene.createWithDefaultRenderer(Color.Beige);
 
