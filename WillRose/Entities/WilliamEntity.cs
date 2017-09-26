@@ -19,6 +19,10 @@ namespace WillRose.Entities
         VirtualIntegerAxis _movementInput;
         VirtualButton _jumpInput;
 
+        Mover _mover;
+
+        EntityConstants.MovementStates _mState;
+
         public override void onAddedToEntity()
         {
             _jumpInput = new VirtualButton();
@@ -26,6 +30,10 @@ namespace WillRose.Entities
 
             _movementInput = new VirtualIntegerAxis();
             _movementInput.nodes.Add(new Nez.VirtualAxis.KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.A, Keys.D));
+
+            _mover = new Mover();
+
+            this.entity.addComponent(_mover);
         }
 
         public void onTriggerEnter(Collider other, Collider local)
@@ -43,8 +51,19 @@ namespace WillRose.Entities
             var movement = new Vector2(_movementInput.value, 0);
             var jumping = _jumpInput.isPressed;
 
+            _mState = EntityConstants.MovementStates.JUMP;
+
+            var distance = Vector2.Multiply(movement, EntityConstants.PlayerVelocity);
+            distance = Vector2.Multiply(distance, Time.deltaTime);
+
+            Debug.log(distance);
+
+            CollisionResult result;
+            _mover.move(distance, out result);
+
             Debug.log(movement);
             Debug.log(jumping);
+            Debug.log(Time.deltaTime);
         }
     }
 }

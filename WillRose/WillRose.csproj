@@ -58,6 +58,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Entities\EntityConstants.cs" />
     <Compile Include="Entities\WilliamEntity.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="Levels\TestLevel.cs" />
