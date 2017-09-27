@@ -32,9 +32,19 @@ namespace WillRose.Levels
         {
             armor = content.Load<Texture2D>("unit_armor");
 
-            var entity = createEntity("William", new Vector2(400, 200));
+            var entity = createEntity("William", new Vector2(200, 300));
             entity.addComponent(new Sprite(armor));
             entity.addComponent(new WilliamComponent());
+
+
+            var entity2 = createEntity("TestUnit", new Vector2(800, 300));
+            entity2.addComponent(new Sprite(armor));
+            var collider = new CircleCollider();
+            collider.isTrigger = true;
+            entity2.addComponent(collider);
+
+            //collider.
+
         }
 
         public override void update()

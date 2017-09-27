@@ -30,20 +30,27 @@ namespace WillRose.Entities
 
             _movementInput = new VirtualIntegerAxis();
             _movementInput.nodes.Add(new Nez.VirtualAxis.KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.A, Keys.D));
-
             _mover = new Mover();
 
             this.entity.addComponent(_mover);
+            this.entity.addComponent(new BoxCollider());
         }
 
         public void onTriggerEnter(Collider other, Collider local)
         {
-            throw new NotImplementedException();
+            Debug.log("Enter");
+            Debug.log("Enter");
+            Debug.log("Enter");
+            Debug.log("Enter");
         }
 
         public void onTriggerExit(Collider other, Collider local)
         {
-            throw new NotImplementedException();
+            Debug.log("Exit");
+            Debug.log("Exit");
+            Debug.log("Exit");
+            Debug.log("Exit");
+            Debug.log("Exit");
         }
 
         public void update()
