@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework;
 
 namespace WillRose.Entities
 {
-    public class WilliamComponent : Component, ITriggerListener, IUpdatable
+    public class WilliamComponentJump : Component, ITriggerListener, IUpdatable
     {
         VirtualIntegerAxis _movementInput;
         VirtualButton _jumpInput;
@@ -25,7 +25,7 @@ namespace WillRose.Entities
 
         EntityConstants.MovementStates _mState;
 
-        public WilliamComponent()
+        public WilliamComponentJump()
         {
         }
 
@@ -35,10 +35,10 @@ namespace WillRose.Entities
             _velocity = new Vector2(0, 0);
 
             _jumpInput = new VirtualButton();
-            _jumpInput.nodes.Add(new Nez.VirtualButton.KeyboardKey(Keys.W));
+            _jumpInput.nodes.Add(new Nez.VirtualButton.KeyboardKey(Keys.Up));
 
             _movementInput = new VirtualIntegerAxis();
-            _movementInput.nodes.Add(new Nez.VirtualAxis.KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.A, Keys.D));
+            _movementInput.nodes.Add(new Nez.VirtualAxis.KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.Left, Keys.Right));
             _mover = new Mover();
 
             this.entity.addComponent(_mover);

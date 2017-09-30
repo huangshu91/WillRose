@@ -59,6 +59,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Entities\EntityConstants.cs" />
+    <Compile Include="Entities\WilliamEntityJump.cs" />
     <Compile Include="Entities\WilliamEntity.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="Levels\TestLevel.cs" />
