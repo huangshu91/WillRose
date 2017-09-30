@@ -21,7 +21,7 @@ namespace WillRose
         {
             // michelle: play around with this
             policy = Scene.SceneResolutionPolicy.None; 
-            Scene.setDefaultDesignResolution(400, 400, policy);
+            Scene.setDefaultDesignResolution(800, 800, policy);
 
             Window.AllowUserResizing = true;
         }
@@ -35,6 +35,8 @@ namespace WillRose
         protected override void Initialize()
         {
             base.Initialize();
+
+            Physics.gravity = new Vector2(0, 9.81f);
 
             testlevel = new TestLevel();
 

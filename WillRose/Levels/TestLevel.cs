@@ -36,16 +36,16 @@ namespace WillRose.Levels
             entity.addComponent(new Sprite(armor));
             entity.addComponent(new WilliamComponent());
 
-            var entity3 = createEntity("William2", new Vector2(300, 300));
-            entity3.addComponent(new Sprite(armor));
-            entity3.addComponent(new WilliamComponent());
+            //var entity3 = createEntity("William2", new Vector2(300, 300));
+            //entity3.addComponent(new Sprite(armor));
+            //entity3.addComponent(new WilliamComponent());
 
 
-            var entity2 = createEntity("TestUnit", new Vector2(400, 300));
-            entity2.addComponent(new Sprite(armor));
-            var collider = new CircleCollider();
-            collider.isTrigger = true;
-            entity2.addComponent(collider);
+            //var entity2 = createEntity("TestUnit", new Vector2(400, 300));
+            //entity2.addComponent(new Sprite(armor));
+            //var collider = new CircleCollider();
+            //collider.isTrigger = true;
+            //entity2.addComponent(collider);
 
             //collider.
 

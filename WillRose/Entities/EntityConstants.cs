@@ -10,7 +10,9 @@ namespace WillRose.Entities
     {
         public enum MovementStates { REST, JUMP, RUN };
 
-        public const int PlayerVelocity = 100;
+        public const int PlayerVelocity = 400;
+
+        public const int JumpVelocity = 200;
 
         public const int PixelPerMeter = 20;
     }

@@ -18,6 +18,7 @@ namespace WillRose.Entities
     {
         VirtualIntegerAxis _movementInput;
         VirtualButton _jumpInput;
+        VirtualButton _test;
 
         Vector2 _velocity;
 
@@ -31,11 +32,14 @@ namespace WillRose.Entities
 
         public override void onAddedToEntity()
         {
-            _mState = EntityConstants.MovementStates.REST;
+            _mState = EntityConstants.MovementStates.JUMP;
             _velocity = new Vector2(0, 0);
 
             _jumpInput = new VirtualButton();
             _jumpInput.nodes.Add(new Nez.VirtualButton.KeyboardKey(Keys.W));
+
+            _test = new VirtualButton();
+            _test.nodes.Add(new Nez.VirtualButton.KeyboardKey(Keys.S));
 
             _movementInput = new VirtualIntegerAxis();
             _movementInput.nodes.Add(new Nez.VirtualAxis.KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.A, Keys.D));
@@ -65,36 +69,49 @@ namespace WillRose.Entities
         public void update()
         {
             var movement = new Vector2(_movementInput.value, 0);
-            if (_jumpInput.isPressed && _mState == EntityConstants.MovementStates.REST)
+            // hack for now since we have no ground
+            if (this.entity.localPosition.Y >= 500)
             {
-                _velocity.Y = EntityConstants.PlayerVelocity;
-                _mState = EntityConstants.MovementStates.JUMP;
+                _velocity.Y = 0;
+                _mState = EntityConstants.MovementStates.REST;
             }
 
-            // hack for now since we have no ground
-            if (this.entity.localPosition.Y <= 300)
+            if (_jumpInput.isPressed && _mState == EntityConstants.MovementStates.REST)
             {
-                _mState = EntityConstants.MovementStates.REST;
+                _velocity.Y = -1* EntityConstants.PlayerVelocity / EntityConstants.PixelPerMeter;
+                _mState = EntityConstants.MovementStates.JUMP;
             }
 
             var distance = Vector2.Multiply(movement, EntityConstants.PlayerVelocity);
             distance = Vector2.Multiply(distance, Time.deltaTime);
 
-            distance.Y = (float)UpdateJump();
+            //if (_jumpInput.isPressed)
+            //{
+            //    distance.Y = -10;
+            //}
+            //if(_test.isPressed)
+            //{
+            //    distance.Y = 10;
+            //}
 
-            Debug.log(distance);
+            //distance.Y = (float)UpdateJump();
+            if (_mState == EntityConstants.MovementStates.JUMP)
+            {
+                distance.Y = (float)UpdateJump();
+            }
+            
+            Debug.log(this.transform.localPosition);
 
             CollisionResult result;
             _mover.move(distance, out result);
-
-            Debug.log(movement);
-            Debug.log(Time.deltaTime);
         }
 
         private double UpdateJump()
         {
             double distance = _velocity.Y * Time.deltaTime;
-            distance += 0.5 * Physics.gravity.Y * EntityConstants.PixelPerMeter * Time.deltaTime; // should be deltatime squared, test values
+            distance += 0.5 * Physics.gravity.Y * Time.deltaTime; // should be deltatime squared, test values
+            distance *= EntityConstants.PixelPerMeter; // conversion from meters to pixels
+            distance *= 1; // invert axis
 
             // update velocity
             _velocity.Y += Physics.gravity.Y * Time.deltaTime;
