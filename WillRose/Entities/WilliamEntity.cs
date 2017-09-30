@@ -85,16 +85,6 @@ namespace WillRose.Entities
             var distance = Vector2.Multiply(movement, EntityConstants.PlayerVelocity);
             distance = Vector2.Multiply(distance, Time.deltaTime);
 
-            //if (_jumpInput.isPressed)
-            //{
-            //    distance.Y = -10;
-            //}
-            //if(_test.isPressed)
-            //{
-            //    distance.Y = 10;
-            //}
-
-            //distance.Y = (float)UpdateJump();
             if (_mState == EntityConstants.MovementStates.JUMP)
             {
                 distance.Y = (float)UpdateJump();
