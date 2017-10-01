@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Nez;
+using Nez.Sprites;
+using static Nez.VirtualAxis;
 
 namespace WillRose
 {
@@ -14,6 +16,10 @@ namespace WillRose
         Scene testlevel;
 
         Scene testlevel_physics;
+
+        Entity testent;
+
+        VirtualAxis _move;
 
         public GameEngine() : base()
         {
@@ -35,8 +41,26 @@ namespace WillRose
 
             testlevel_physics = Scene.createWithDefaultRenderer(Color.Beige);
 
-            Core.scene = testlevel;
+            testent = testlevel_physics.createEntity("test");
+            var text = testlevel_physics.content.Load<Texture2D>("dustball");
+
+            testent.transform.setPosition(new Vector2(100, 100));
+
+            testent.addComponent(new Sprite(text));
+            testent.addComponent(new BoxCollider());
+            testent.addComponent(new Mover());
+            
+            Core.scene = testlevel_physics;
+
+            _move = new VirtualAxis(new Node[] { new KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.A, Keys.D)});
         }
-        
+
+        protected override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            Debug.info(_move.ToString());
+        }
+
     }
 }
