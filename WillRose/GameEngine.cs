@@ -12,17 +12,18 @@ namespace WillRose
     /// </summary>
     public class GameEngine : Core
     {
+        Scene.SceneResolutionPolicy policy;
 
         Scene testlevel;
-
         Scene testlevel_physics;
-
-        Entity testent;
-
-        VirtualAxis _move;
 
         public GameEngine() : base()
         {
+            // michelle: play around with this
+            policy = Scene.SceneResolutionPolicy.None; 
+            Scene.setDefaultDesignResolution(800, 800, policy);
+
+            Window.AllowUserResizing = true;
         }
 
         /// <summary>
@@ -33,33 +34,15 @@ namespace WillRose
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
 
-            testlevel = Scene.createWithDefaultRenderer(Color.CornflowerBlue);
+            Physics.gravity = new Vector2(0, 9.81f);
+
+            testlevel = new TestLevel();
 
             testlevel_physics = Scene.createWithDefaultRenderer(Color.Beige);
 
-            testent = testlevel_physics.createEntity("test");
-            var text = testlevel_physics.content.Load<Texture2D>("dustball");
-
-            testent.transform.setPosition(new Vector2(100, 100));
-
-            testent.addComponent(new Sprite(text));
-            testent.addComponent(new BoxCollider());
-            testent.addComponent(new Mover());
-            
-            Core.scene = testlevel_physics;
-
-            _move = new VirtualAxis(new Node[] { new KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.A, Keys.D)});
-        }
-
-        protected override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            Debug.info(_move.ToString());
+            Core.scene = testlevel;
         }
 
     }
