@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Nez;
 using Nez.Sprites;
+using WillRose.Levels;
 using static Nez.VirtualAxis;
 
 namespace WillRose
@@ -20,7 +21,7 @@ namespace WillRose
         public GameEngine() : base()
         {
             // michelle: play around with this
-            policy = Scene.SceneResolutionPolicy.None; 
+            policy = Scene.SceneResolutionPolicy.NoBorderPixelPerfect;
             Scene.setDefaultDesignResolution(800, 800, policy);
 
             Window.AllowUserResizing = true;

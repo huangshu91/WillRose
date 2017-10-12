@@ -11,6 +11,7 @@ using Nez.Sprites;
 using Nez.Textures;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace WillRose.Entities
 {
@@ -23,11 +24,15 @@ namespace WillRose.Entities
         Vector2 _velocity;
 
         Mover _mover;
+        Texture2D armor;
+
+        CollisionResult result;
 
         EntityConstants.MovementStates _mState;
 
-        public WilliamComponent()
+        public WilliamComponent(Texture2D sprite)
         {
+            armor = sprite;
         }
 
         public override void onAddedToEntity()
@@ -69,12 +74,6 @@ namespace WillRose.Entities
         public void update()
         {
             var movement = new Vector2(_movementInput.value, 0);
-            // hack for now since we have no ground
-            if (this.entity.localPosition.Y >= 500)
-            {
-                _velocity.Y = 0;
-                _mState = EntityConstants.MovementStates.REST;
-            }
 
             if (_jumpInput.isPressed && _mState == EntityConstants.MovementStates.REST)
             {
@@ -91,9 +90,26 @@ namespace WillRose.Entities
             }
             
             Debug.log(this.transform.localPosition);
-
-            CollisionResult result;
+            
             _mover.move(distance, out result);
+
+            Debug.log(result);
+
+            var ground = this.transform.localPosition;
+            ground.Y += armor.Height / 2 + 1;
+            var hit = Physics.linecast(this.transform.localPosition, ground);
+
+            if (hit.collider != null && hit.collider.entity.name.Equals("ground"))
+            {
+                _velocity.Y = 0;
+                _mState = EntityConstants.MovementStates.REST;
+            }
+            else
+            {
+                _mState = EntityConstants.MovementStates.JUMP;
+            }
+
+            Debug.log(_mState);
         }
 
         private double UpdateJump()

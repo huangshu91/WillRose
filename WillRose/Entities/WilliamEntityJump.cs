@@ -90,9 +90,9 @@ namespace WillRose.Entities
                 distance.Y = (float)UpdateJump();
             }
 
-            Debug.log(this.transform.localPosition);
+            //Debug.log(this.transform.localPosition);
 
-            CollisionResult result;
+            //CollisionResult result;
             //_mover.move(distance, out result);
         }
 
