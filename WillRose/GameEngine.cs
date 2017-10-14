@@ -22,7 +22,7 @@ namespace WillRose
         {
             // michelle: play around with this
             policy = Scene.SceneResolutionPolicy.NoBorderPixelPerfect;
-            Scene.setDefaultDesignResolution(800, 800, policy);
+            Scene.setDefaultDesignResolution(1200, 800, policy);
 
             Window.AllowUserResizing = true;
         }
@@ -37,7 +37,7 @@ namespace WillRose
         {
             base.Initialize();
 
-            Physics.gravity = new Vector2(0, 9.81f);
+            Physics.gravity = new Vector2(0, 11f);
 
             testlevel = new TestLevel();
 

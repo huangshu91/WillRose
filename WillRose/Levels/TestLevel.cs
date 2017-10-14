@@ -44,7 +44,6 @@ namespace WillRose.Levels
             //entity3.addComponent(new Sprite(armor));
             //entity3.addComponent(new WilliamComponentJump());
 
-
             //var entity2 = createEntity("TestUnit", new Vector2(400, 300));
             //entity2.addComponent(new Sprite(armor));
             //var collider = new CircleCollider();

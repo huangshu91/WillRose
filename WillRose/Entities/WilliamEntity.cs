@@ -77,7 +77,7 @@ namespace WillRose.Entities
 
             if (_jumpInput.isPressed && _mState == EntityConstants.MovementStates.REST)
             {
-                _velocity.Y = -1* EntityConstants.PlayerVelocity / EntityConstants.PixelPerMeter;
+                _velocity.Y = -1 * EntityConstants.JumpVelocity / EntityConstants.PixelPerMeter;
                 _mState = EntityConstants.MovementStates.JUMP;
             }
 
@@ -88,16 +88,25 @@ namespace WillRose.Entities
             {
                 distance.Y = (float)UpdateJump();
             }
-            
+            //var ground = this.transform.localPosition;
+            //ground.Y += armor.Height / 2 + 1;
+            //var hit = Physics.linecast(this.transform.localPosition, ground);
+            //if (result.below)
+
             Debug.log(this.transform.localPosition);
             
             _mover.move(distance, out result);
 
-            Debug.log(result);
+            //Debug.log(result);
 
             var ground = this.transform.localPosition;
+
+            Debug.log(ground);
+
             ground.Y += armor.Height / 2 + 1;
             var hit = Physics.linecast(this.transform.localPosition, ground);
+
+            Debug.log(ground);
 
             if (hit.collider != null && hit.collider.entity.name.Equals("ground"))
             {
