@@ -37,7 +37,7 @@ namespace WillRose
         {
             base.Initialize();
 
-            Physics.gravity = new Vector2(0, 11f);
+            Physics.gravity = new Vector2(0, 15f);
 
             testlevel = new TestLevel();
 

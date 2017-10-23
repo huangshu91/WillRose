@@ -16,6 +16,7 @@ namespace WillRose.Levels
     public class TestLevel : Nez.Scene
     {
         Texture2D armor;
+        Texture2D crom;
 
         public TestLevel() : base() { }
 
@@ -26,14 +27,15 @@ namespace WillRose.Levels
             addRenderer(new DefaultRenderer());
             clearColor = Color.LightBlue;
 
+            armor = content.Load<Texture2D>("unit_armor");
+            crom = content.Load<Texture2D>("cromwellCharacter");
+
             InitializeEntities();
             InitializeEnvironment();
         }
 
         private void InitializeEntities()
         {
-            armor = content.Load<Texture2D>("unit_armor");
-
             var entity = createEntity("William", new Vector2(100, 300));
             entity.addComponent(new Sprite(armor));
             entity.addComponent(new WilliamComponent(armor));
@@ -44,14 +46,16 @@ namespace WillRose.Levels
             //entity3.addComponent(new Sprite(armor));
             //entity3.addComponent(new WilliamComponentJump());
 
-            //var entity2 = createEntity("TestUnit", new Vector2(400, 300));
-            //entity2.addComponent(new Sprite(armor));
-            //var collider = new CircleCollider();
-            //collider.isTrigger = true;
-            //entity2.addComponent(collider);
+            var entity2 = createEntity("TestUnit", new Vector2(600, 480));
+            Sprite cromSprite = new Sprite(crom);
+            //cromSprite.color = Color.Black;
+            entity2.addComponent(cromSprite);
+            entity2.scale = new Vector2(0.15f, 0.15f);
+            entity2.addComponent(new NpcEntity());
 
-            //collider.
-
+            //var entity3 = createEntity("TestTest");
+            //entity3.addComponent(new Text(Graphics.instance.bitmapFont, "TESTTEST3", new Vector2(565, 350), Color.Black))
+            //    .setRenderLayer(999);
         }
 
         private void InitializeEnvironment()

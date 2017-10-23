@@ -30,6 +30,8 @@ namespace WillRose.Entities
 
         EntityConstants.MovementStates _mState;
 
+        Entity text;
+
         public WilliamComponent(Texture2D sprite)
         {
             armor = sprite;
@@ -56,6 +58,7 @@ namespace WillRose.Entities
 
         public void onTriggerEnter(Collider other, Collider local)
         {
+
             Debug.log("Enter");
             Debug.log("Enter");
             Debug.log("Enter");

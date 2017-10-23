@@ -12,7 +12,7 @@ namespace WillRose.Entities
 
         public const int PlayerVelocity = 400;
 
-        public const int JumpVelocity = 230;
+        public const int JumpVelocity = 300;
 
         public const int PixelPerMeter = 20;
     }
