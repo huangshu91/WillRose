@@ -9,6 +9,8 @@ namespace WillRose.Entities
     public static class EntityConstants
     {
         public enum MovementStates { REST, JUMP, RUN };
+        public enum MovementDirection { LEFT, RIGHT };
+        public enum FireStates { NONE, AIM, RELEASE };
 
         public const int PlayerVelocity = 400;
 

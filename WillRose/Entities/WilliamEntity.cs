@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,60 +15,59 @@ namespace WillRose.Entities
 {
     public class WilliamComponent : Component, ITriggerListener, IUpdatable
     {
-        VirtualIntegerAxis _movementInput;
-        VirtualButton _jumpInput;
-        VirtualButton _test;
+        private VirtualIntegerAxis _movementInput;
+        private VirtualButton _jumpInput;
+        private VirtualButton _fireInput;
 
         Vector2 _velocity;
 
         Mover _mover;
         Texture2D armor;
+        Sprite _sprite;
 
         CollisionResult result;
 
         EntityConstants.MovementStates _mState;
+        EntityConstants.MovementDirection _mDirection;
 
-        Entity text;
+        private MovementComponent _moveComp;
 
-        public WilliamComponent(Texture2D sprite)
+        List<Entity> childEntities;
+
+        public WilliamComponent(Texture2D tex)
         {
-            armor = sprite;
+            childEntities = new List<Entity>();
+            armor = tex;
         }
 
         public override void onAddedToEntity()
         {
             _mState = EntityConstants.MovementStates.JUMP;
+            _mDirection = EntityConstants.MovementDirection.RIGHT;
             _velocity = new Vector2(0, 0);
+
+            _sprite = this.getComponent<Sprite>();
 
             _jumpInput = new VirtualButton();
             _jumpInput.nodes.Add(new Nez.VirtualButton.KeyboardKey(Keys.W));
 
-            _test = new VirtualButton();
-            _test.nodes.Add(new Nez.VirtualButton.KeyboardKey(Keys.S));
+            _fireInput = new VirtualButton();
+            _fireInput.nodes.Add(new Nez.VirtualButton.KeyboardKey(Keys.S));
 
             _movementInput = new VirtualIntegerAxis();
             _movementInput.nodes.Add(new Nez.VirtualAxis.KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.A, Keys.D));
-            _mover = new Mover();
 
-            this.entity.addComponent(_mover);
-            this.entity.addComponent(new BoxCollider());
+            _moveComp = new MovementComponent();
+            this.entity.addComponent(_moveComp);
         }
 
         public void onTriggerEnter(Collider other, Collider local)
         {
-
-            Debug.log("Enter");
-            Debug.log("Enter");
-            Debug.log("Enter");
             Debug.log("Enter");
         }
 
         public void onTriggerExit(Collider other, Collider local)
         {
-            Debug.log("Exit");
-            Debug.log("Exit");
-            Debug.log("Exit");
-            Debug.log("Exit");
             Debug.log("Exit");
         }
 
@@ -86,21 +83,18 @@ namespace WillRose.Entities
 
             var distance = Vector2.Multiply(movement, EntityConstants.PlayerVelocity);
             distance = Vector2.Multiply(distance, Time.deltaTime);
-
+            
+            // movement component
             if (_mState == EntityConstants.MovementStates.JUMP)
             {
                 distance.Y = (float)UpdateJump();
             }
-            //var ground = this.transform.localPosition;
-            //ground.Y += armor.Height / 2 + 1;
-            //var hit = Physics.linecast(this.transform.localPosition, ground);
-            //if (result.below)
 
             Debug.log(this.transform.localPosition);
             
             _mover.move(distance, out result);
-
-            //Debug.log(result);
+            Animate();
+            // movement component
 
             var ground = this.transform.localPosition;
 
@@ -121,7 +115,31 @@ namespace WillRose.Entities
                 _mState = EntityConstants.MovementStates.JUMP;
             }
 
+            HandleFireInput();
+
             Debug.log(_mState);
+        }
+
+        private void Animate()
+        {
+            if (_mDirection == EntityConstants.MovementDirection.LEFT)
+            {
+                _sprite.flipX = true;
+            }
+            else
+            {
+                _sprite.flipX = false;
+            }
+        }
+
+        private void HandleFireInput()
+        {
+            if (_fireInput.isReleased)
+            {
+                ProjectileComponent arrow = new ProjectileComponent();
+                var ent = Core.scene.createEntity("arrow", this.transform.localPosition);
+                ent.addComponent(arrow);
+            }
         }
 
         private double UpdateJump()

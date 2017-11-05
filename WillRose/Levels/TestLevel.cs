@@ -18,6 +18,8 @@ namespace WillRose.Levels
         Texture2D armor;
         Texture2D crom;
 
+        Dictionary<string, Texture2D> _textures;
+
         public TestLevel() : base() { }
 
         public override void initialize()
@@ -27,8 +29,10 @@ namespace WillRose.Levels
             addRenderer(new DefaultRenderer());
             clearColor = Color.LightBlue;
 
+            _textures = new Dictionary<string, Texture2D>();
+
             armor = content.Load<Texture2D>("unit_armor");
-            crom = content.Load<Texture2D>("cromwellCharacter");
+            crom = content.Load<Texture2D>("williamPixel_v2");
 
             InitializeEntities();
             InitializeEnvironment();
@@ -37,8 +41,8 @@ namespace WillRose.Levels
         private void InitializeEntities()
         {
             var entity = createEntity("William", new Vector2(100, 300));
-            entity.addComponent(new Sprite(armor));
-            entity.addComponent(new WilliamComponent(armor));
+            entity.addComponent(new Sprite(crom));
+            entity.addComponent(new WilliamComponent(crom));
 
             camera.entity.addComponent(new FollowCamera(entity));
 
@@ -47,10 +51,10 @@ namespace WillRose.Levels
             //entity3.addComponent(new WilliamComponentJump());
 
             var entity2 = createEntity("TestUnit", new Vector2(600, 480));
-            Sprite cromSprite = new Sprite(crom);
+            Sprite cromSprite = new Sprite(armor);
             //cromSprite.color = Color.Black;
             entity2.addComponent(cromSprite);
-            entity2.scale = new Vector2(0.15f, 0.15f);
+            //entity2.scale = new Vector2(0.15f, 0.15f);
             entity2.addComponent(new NpcEntity());
 
             //var entity3 = createEntity("TestTest");
