@@ -20,12 +20,11 @@ namespace WillRose.Entities
         private VirtualButton _fireInput;
 
         Vector2 _velocity;
-
-        Mover _mover;
+        
         Texture2D armor;
         Sprite _sprite;
 
-        CollisionResult result;
+        Texture2D dust;
 
         EntityConstants.MovementStates _mState;
         EntityConstants.MovementDirection _mDirection;
@@ -34,10 +33,11 @@ namespace WillRose.Entities
 
         List<Entity> childEntities;
 
-        public WilliamComponent(Texture2D tex)
+        public WilliamComponent(Texture2D tex, Texture2D proj)
         {
             childEntities = new List<Entity>();
             armor = tex;
+            dust = proj;
         }
 
         public override void onAddedToEntity()
@@ -57,8 +57,10 @@ namespace WillRose.Entities
             _movementInput = new VirtualIntegerAxis();
             _movementInput.nodes.Add(new Nez.VirtualAxis.KeyboardKeys(VirtualInput.OverlapBehavior.TakeNewer, Keys.A, Keys.D));
 
-            _moveComp = new MovementComponent();
-            this.entity.addComponent(_moveComp);
+            //_moveComp = new MovementComponent();
+            //this.entity.addComponent(_moveComp);
+
+            _moveComp = this.entity.getComponent<MovementComponent>();
         }
 
         public void onTriggerEnter(Collider other, Collider local)
@@ -91,8 +93,9 @@ namespace WillRose.Entities
             }
 
             Debug.log(this.transform.localPosition);
-            
-            _mover.move(distance, out result);
+
+            //_mover.move(distance, out result);
+            _moveComp.update(distance);
             Animate();
             // movement component
 
@@ -122,6 +125,7 @@ namespace WillRose.Entities
 
         private void Animate()
         {
+            _mDirection = _moveComp._mDirection;
             if (_mDirection == EntityConstants.MovementDirection.LEFT)
             {
                 _sprite.flipX = true;
@@ -136,9 +140,21 @@ namespace WillRose.Entities
         {
             if (_fireInput.isReleased)
             {
-                ProjectileComponent arrow = new ProjectileComponent();
-                var ent = Core.scene.createEntity("arrow", this.transform.localPosition);
+                float xImp = 5;
+                xImp *= (_mDirection == EntityConstants.MovementDirection.RIGHT) ? 1 : -1;
+                Vector2 force = new Vector2(
+                    xImp,
+                    -1 * EntityConstants.JumpVelocity / EntityConstants.PixelPerMeter);
+
+                ProjectileComponent arrow = new ProjectileComponent(dust, force);
+                var pos = this.transform.localPosition;
+                pos.X += (_mDirection == EntityConstants.MovementDirection.RIGHT) ? 10 : -10;
+
+                var ent = Core.scene.createEntity("arrow", pos);
                 ent.addComponent(arrow);
+
+                var arrowmove = new MovementComponent();
+                ent.addComponent(arrowmove);
             }
         }
 

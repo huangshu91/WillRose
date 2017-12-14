@@ -18,7 +18,7 @@ namespace WillRose.Levels
         Texture2D armor;
         Texture2D crom;
 
-        Dictionary<string, Texture2D> _textures;
+        public Dictionary<string, Texture2D> _textures;
 
         public TestLevel() : base() { }
 
@@ -32,7 +32,12 @@ namespace WillRose.Levels
             _textures = new Dictionary<string, Texture2D>();
 
             armor = content.Load<Texture2D>("unit_armor");
-            crom = content.Load<Texture2D>("williamPixel_v2");
+            crom = content.Load<Texture2D>("williamPixel_v4v2");
+            var dust = content.Load<Texture2D>("dustball");
+
+            _textures.Add("armor", armor);
+            _textures.Add("crom", crom);
+            _textures.Add("dust", dust);
 
             InitializeEntities();
             InitializeEnvironment();
@@ -42,7 +47,11 @@ namespace WillRose.Levels
         {
             var entity = createEntity("William", new Vector2(100, 300));
             entity.addComponent(new Sprite(crom));
-            entity.addComponent(new WilliamComponent(crom));
+
+            var movecomp = new MovementComponent();
+            entity.addComponent(movecomp);
+
+            entity.addComponent(new WilliamComponent(crom, _textures["armor"]));
 
             camera.entity.addComponent(new FollowCamera(entity));
 

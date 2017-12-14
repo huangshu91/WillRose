@@ -20,6 +20,8 @@ namespace WillRose.Entities
 
         private Sprite _sprite;
 
+        public CollisionResult result;
+
         public MovementComponent()
         {
             _velocity = new Vector2(0, 0);
@@ -49,6 +51,8 @@ namespace WillRose.Entities
             {
                 _mDirection = EntityConstants.MovementDirection.LEFT;
             }
+
+            _mover.move(update, out result);
         }
 
         public double UpdateGravity()
